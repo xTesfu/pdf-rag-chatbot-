@@ -26,9 +26,9 @@ MODEL = model_name
 # =========================
 embedder = SentenceTransformer("all-MiniLM-L6-v2")
 
-# =========================
-# 3. PDF LOADING
-# =========================
+# # =========================
+# # 3. PDF LOADING
+# # =========================
 def load_pdf(path):
     reader = PdfReader(path)
     text = ""

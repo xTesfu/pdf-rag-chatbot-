@@ -1,9 +1,15 @@
 from app.chunker import chunk_text
 from app.pdf_loader import load_pdf
 from app.embeddings import build_vector
-from app.vector_store import build_index
 from app.retriever import retrieve
 from app.llm import ask_llm
+from app.vector_store import (
+    build_index,
+    save_index,
+    load_index,
+    save_chunks,
+    load_chunks
+)
 
 def main(pdf_path):
     print("Loading PDF...")
@@ -12,11 +18,23 @@ def main(pdf_path):
     print("Chunking text...")
     chunks = chunk_text(text)
 
-    print("Building vector")
-    vectors = build_vector(chunks)
+    index = load_index()
+    saved_chunks = load_chunks()
 
-    print("Building vector index...")
-    index, _ = build_index(vectors)
+    if index is None or saved_chunks is None:
+
+        print("Building vectors...")
+        vectors = build_vector(chunks)
+
+        print("Building vector index...")
+        index = build_index(vectors)
+
+        save_index(index)
+        save_chunks(chunks)
+
+    else:
+        chunks = saved_chunks
+        print("Loaded existing FAISS index.")
 
     print("\n✅ Ready! Ask questions about your PDF.\n")
 

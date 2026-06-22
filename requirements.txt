@@ -7,4 +7,5 @@ python-dotenv
 fastapi
 uvicorn
 streamlit
-pip install torchvision
+torchvision
+ruff

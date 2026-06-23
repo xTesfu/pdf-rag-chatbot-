@@ -77,8 +77,8 @@ if uploaded_files:
                 pdf_path = tmp_file.name
 
             # Extract text and chunks
-            text = load_pdf(pdf_path)
-            chunks = chunk_text(text)
+            pages = load_pdf(pdf_path)
+            chunks = chunk_text(pages, document_name=uploaded_file.name)
 
             # Try loading cached version
             index = load_index(doc_id)
@@ -146,9 +146,14 @@ if prompt := st.chat_input(
     )
 
     # Search across ALL PDFs
-    context = retrieve(prompt)
+    results = retrieve(prompt)
 
-    context_text = "\n\n".join(context)
+    context_text = "\n\n".join(
+        [
+            f"[{r['document']} | page {r['page']}]\n{r['text']}"
+            for r in results
+        ]
+    )
 
     # Ask LLM
     with st.spinner("Thinking..."):

@@ -1,17 +1,12 @@
 from app.embeddings import build_vector
 from app.vector_store import get_all_documents, load_chunks, load_index
 
-# import numpy as np
 
+def retrieve(query, k=5):
 
-def retrieve(query, k=3):
-    """
-    Search across ALL PDFs and return top-k most relevant chunks.
-    """
+    q_vec = build_vector([{"text": query}]).astype("float32")
 
-    q_vec = build_vector([query]).astype("float32")
-
-    all_results = []
+    results = []
 
     doc_ids = get_all_documents()
 
@@ -26,16 +21,20 @@ def retrieve(query, k=3):
         distances, indices = index.search(q_vec, k)
 
         for i, idx in enumerate(indices[0]):
+
             if idx == -1:
                 continue
 
-            all_results.append({
-                "text": chunks[idx],
-                "score": float(distances[0][i]),
-                "doc_id": doc_id
+            chunk = chunks[idx]
+
+            results.append({
+                "text": chunk["text"],
+                "document": chunk["document"],
+                "page": chunk["page"],
+                "score": float(distances[0][i])
             })
 
-    # sort by best score (FAISS L2 → lower is better)
-    all_results.sort(key=lambda x: x["score"])
+    # best first (FAISS IP → higher is better)
+    results.sort(key=lambda x: x["score"], reverse=True)
 
-    return [r["text"] for r in all_results[:k]]
+    return results[:k]

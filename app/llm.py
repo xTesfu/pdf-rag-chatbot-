@@ -5,25 +5,33 @@ from openai import OpenAI
 
 load_dotenv() 
 
-api_key = os.getenv("QWEN_API_KEY")
-model_name = os.getenv("MODEL_NAME")
-
 client = OpenAI(
     base_url="http://localhost:11434/v1",
-    api_key=api_key
+    api_key=os.getenv("QWEN_API_KEY")
 )
 
-MODEL = model_name
+MODEL = os.getenv("MODEL_NAME")
 
 def ask_llm(context, question):
     prompt = f"""
+You are a helpful assistant.
+
 Use the context to answer the question.
+
+IMPORTANT:
+- Always include sources at the end.
+- Sources must include document name and page number.
 
 Context:
 {context}
 
 Question:
 {question}
+
+Answer format:
+- Answer
+- Sources:
+    - document_name (page X)
 """
 
     response = client.chat.completions.create(

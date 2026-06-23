@@ -9,3 +9,4 @@ uvicorn
 streamlit
 torchvision
 ruff
+langchain-text-splitters

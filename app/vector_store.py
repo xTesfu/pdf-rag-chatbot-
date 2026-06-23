@@ -20,7 +20,6 @@ def get_doc_path(doc_id):
 def build_index(vectors):
     dim = vectors.shape[1]
 
-    # index = faiss.IndexFlatL2(dim)
     index = faiss.IndexFlatIP(dim)
     index.add(np.array(vectors).astype("float32"))
 

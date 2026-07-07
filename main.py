@@ -1,3 +1,4 @@
+import os
 import tempfile
 
 from app.chunker import chunk_text
@@ -7,6 +8,7 @@ from app.pdf_loader import load_pdf
 from app.retriever import retrieve
 from app.vector_store import (
     build_index,
+    get_all_documents,
     get_doc_id,
     load_chunks,
     load_index,
@@ -57,8 +59,12 @@ def main(pdf_paths):
 
         process_pdf(tmp_path, pdf_bytes)
 
-        import os
         os.remove(tmp_path)
+
+    if not pdf_paths and not get_all_documents():
+        print("No PDF files found and no indexed documents in data/.")
+        print("Upload PDFs via the API or Streamlit UI first, or set PDF_PATHS.")
+        return
 
     print("\n✅ System ready! Ask questions.\n")
 
@@ -91,10 +97,16 @@ def main(pdf_paths):
 # RUN
 # =========================
 if __name__ == "__main__":
-    pdf_files = [
+    default_pdfs = [
         "data/file1.pdf",
         "data/file2.pdf",
         "data/file3.pdf",
     ]
+
+    pdf_paths_env = os.getenv("PDF_PATHS", "")
+    if pdf_paths_env.strip():
+        pdf_files = [p.strip() for p in pdf_paths_env.split(",") if p.strip()]
+    else:
+        pdf_files = [p for p in default_pdfs if os.path.exists(p)]
 
     main(pdf_files)

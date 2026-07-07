@@ -6,8 +6,8 @@ from openai import OpenAI
 load_dotenv() 
 
 client = OpenAI(
-    base_url="http://localhost:11434/v1",
-    api_key=os.getenv("QWEN_API_KEY")
+    base_url=os.getenv("OLLAMA_BASE_URL", "http://localhost:11434/v1"),
+    api_key=os.getenv("QWEN_API_KEY"),
 )
 
 MODEL = os.getenv("MODEL_NAME")

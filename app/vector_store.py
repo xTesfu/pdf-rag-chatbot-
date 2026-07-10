@@ -1,5 +1,5 @@
 import hashlib
-import pickle # nosec B403
+import pickle  # nosec B403
 from pathlib import Path
 
 import faiss

@@ -22,7 +22,7 @@ def test_get_doc_id_is_deterministic():
 
     assert id1 == id2
     assert isinstance(id1, str)
-    assert len(id1) == 32  # md5 length
+    assert len(id1) == 64  # sha256 length
 
 def test_get_doc_path_creates_directory(tmp_path, monkeypatch):
     from app import vector_store

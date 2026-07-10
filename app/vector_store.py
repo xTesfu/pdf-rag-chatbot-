@@ -1,7 +1,5 @@
 import hashlib
-
-# import pickle
-import json
+import pickle
 from pathlib import Path
 
 import faiss
@@ -11,7 +9,6 @@ DATA_DIR = Path("data")
 
 
 def get_doc_id(pdf_bytes):
-    # return hashlib.md5(pdf_bytes).hexdigest()
     return hashlib.sha256(pdf_bytes).hexdigest()
 
 
@@ -48,9 +45,8 @@ def load_index(doc_id):
 # ----------------------------
 def save_chunks(chunks, doc_id):
     path = get_doc_path(doc_id)
-    with open(path / "chunks.pkl", "wb", encoding="utf-8") as f:
-        # pickle.dump(chunks, f)
-        json.dump(chunks, f, indent=2)
+    with open(path / "chunks.pkl", "wb") as f:
+        pickle.dump(chunks, f) # nosec B301
 
 
 def load_chunks(doc_id):
@@ -58,9 +54,8 @@ def load_chunks(doc_id):
     file = path / "chunks.pkl"
 
     if file.exists():
-        with open(file, "rb", encoding="utf-8") as f:
-            # return pickle.load(f)
-            return json.load(f)
+        with open(file, "rb") as f:
+            return pickle.load(f) # nosec B301
 
     return None
 

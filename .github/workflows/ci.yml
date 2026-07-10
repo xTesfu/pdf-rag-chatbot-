@@ -96,6 +96,9 @@ jobs:
       # Run tests + coverage
       # -----------------------------
       - name: Run tests with coverage
+        env:
+          QWEN_API_KEY: ${{ secrets.QWEN_API_KEY }}
+          MODEL_NAME: ${{ secrets.MODEL_NAME }}
         run: |
           pytest \
             --cov=. \

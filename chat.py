@@ -35,15 +35,13 @@ if "messages" not in st.session_state:
     st.session_state.messages = []
 
 if "documents" not in st.session_state:
-    """
-    {
-      doc_id: {
-          "name": filename,
-          "index": faiss_index,
-          "chunks": [...]
-      }
-    }
-    """
+    # {
+    #   doc_id: {
+    #       "name": filename,
+    #       "index": faiss_index,
+    #       "chunks": [...]
+    #   }
+    # }
     st.session_state.documents = {}
 
 # ---------------------------------------------------

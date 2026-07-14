@@ -6,9 +6,9 @@ services:
     volumes:
       - rag-data:/app/data
     environment:
-      QWEN_API_KEY: ${QWEN_API_KEY:-ollama}
-      MODEL_NAME: ${MODEL_NAME:-qwen2.5:7b}
-      OLLAMA_BASE_URL: ${OLLAMA_BASE_URL:-http://host.docker.internal:11434/v1}
+      QWEN_API_KEY: ${QWEN_API_KEY}
+      MODEL_NAME: ${MODEL_NAME}
+      OLLAMA_BASE_URL: ${OLLAMA_BASE_URL}
     extra_hosts:
       - "host.docker.internal:host-gateway"
     command: uvicorn api:app --host 0.0.0.0 --port 8000
@@ -21,9 +21,9 @@ services:
     volumes:
       - rag-data:/app/data
     environment:
-      QWEN_API_KEY: ${QWEN_API_KEY:-ollama}
-      MODEL_NAME: ${MODEL_NAME:-qwen2.5:7b}
-      OLLAMA_BASE_URL: ${OLLAMA_BASE_URL:-http://host.docker.internal:11434/v1}
+      QWEN_API_KEY: ${QWEN_API_KEY}
+      MODEL_NAME: ${MODEL_NAME}
+      OLLAMA_BASE_URL: ${OLLAMA_BASE_URL}
     extra_hosts:
       - "host.docker.internal:host-gateway"
     command: streamlit run chat.py --server.address 0.0.0.0 --server.port 8501
@@ -38,9 +38,9 @@ services:
     volumes:
       - rag-data:/app/data
     environment:
-      QWEN_API_KEY: ${QWEN_API_KEY:-ollama}
-      MODEL_NAME: ${MODEL_NAME:-qwen2.5:7b}
-      OLLAMA_BASE_URL: ${OLLAMA_BASE_URL:-http://host.docker.internal:11434/v1}
+      QWEN_API_KEY: ${QWEN_API_KEY}
+      MODEL_NAME: ${MODEL_NAME}
+      OLLAMA_BASE_URL: ${OLLAMA_BASE_URL}
     extra_hosts:
       - "host.docker.internal:host-gateway"
     command: python main.py
